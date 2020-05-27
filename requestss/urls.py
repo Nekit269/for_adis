@@ -12,4 +12,6 @@ urlpatterns = [
     re_path(r'^message$', views.message),
     re_path(r'^login$', views.login),
     re_path(r'^create_account$', views.registration),
+    re_path(r'^save_history$', views.save_history),
+    re_path(r'^load_history$', views.load_history),
 ]

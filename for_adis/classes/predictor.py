@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorlayer.models.seq2seq import Seq2seq
 import pickle
 
+
 class Predictor():
     def __init__(self):
         #data preprocessing
