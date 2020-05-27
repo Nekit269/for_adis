@@ -27,28 +27,6 @@ def pprint(request):
 pprint.csrf_exempt = True
 
 
-# def get_film(collection, attrs=[]):
-# #     if attrs == []:
-# #         return collection.aggregate([{'$sample':{'size':1}}])
-# #     else:
-# #         attr = attrs.pop(0)
-# #         print(attr)
-# #         if attr.isnumeric():
-# #             print(0)
-# #             print(collection.count())
-# #             print(collection.find({"Year": attr}).count())
-# #             if collection.count({"Year": attr}) > 0:
-# #                 print(0,0)
-# #                 return get_film(collection.find({"Year": attr}), attrs)
-# #         else:
-# #             attr = attr.capitalize()
-# #             print(1)
-# #             if collection.count({"Genres": attr}) > 0:
-# #                 print(1,0)
-# #                 return get_film(collection.find({"Genres": attr}), attrs)
-# #         return None
-
-
 def get_film(collection, attrs):
     year = None
     genres = []
@@ -150,6 +128,12 @@ def check_for_spec_text(user, text):
         illnes = get_illnes(db.diagnost, " ".join(text_sep[1:]))
         out_str = "У тебя " + illnes['Name'] + ")"
         return out_str
+	elif text_sep[0] in ['помощь', 'help']:
+		out_str = "Набор спец команд:\n"
+		out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
+		out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
+		out_str += "напоминание 25.05.2020 15:10 текст\n"
+		out_str += "диагностика <симптом>\n"
     else:
         return None
 
