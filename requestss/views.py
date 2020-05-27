@@ -128,6 +128,12 @@ def check_for_spec_text(user, text):
         illnes = get_illnes(db.diagnost, " ".join(text_sep[1:]))
         out_str = "У тебя " + illnes['Name'] + ")"
         return out_str
+	elif text_sep[0] in ['помощь', 'help']:
+		out_str = "Набор спец команд:\n"
+		out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
+		out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
+		out_str += "напоминание 25.05.2020 15:10 текст\n"
+		out_str += "диагностика <симптом>\n"
     else:
         return None
 
