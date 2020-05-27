@@ -27,28 +27,6 @@ def pprint(request):
 pprint.csrf_exempt = True
 
 
-# def get_film(collection, attrs=[]):
-# #     if attrs == []:
-# #         return collection.aggregate([{'$sample':{'size':1}}])
-# #     else:
-# #         attr = attrs.pop(0)
-# #         print(attr)
-# #         if attr.isnumeric():
-# #             print(0)
-# #             print(collection.count())
-# #             print(collection.find({"Year": attr}).count())
-# #             if collection.count({"Year": attr}) > 0:
-# #                 print(0,0)
-# #                 return get_film(collection.find({"Year": attr}), attrs)
-# #         else:
-# #             attr = attr.capitalize()
-# #             print(1)
-# #             if collection.count({"Genres": attr}) > 0:
-# #                 print(1,0)
-# #                 return get_film(collection.find({"Genres": attr}), attrs)
-# #         return None
-
-
 def get_film(collection, attrs):
     year = None
     genres = []
