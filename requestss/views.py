@@ -134,6 +134,7 @@ def check_for_spec_text(user, text):
 	out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
 	out_str += "напоминание 25.05.2020 15:10 текст\n"
 	out_str += "диагностика <симптом>\n"
+	return out_str
     else:
         return None
 
