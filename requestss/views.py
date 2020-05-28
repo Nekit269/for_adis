@@ -265,13 +265,8 @@ def load_history(request, format=None):
 
     cursor = db_history.find({'user': user})
     data = cursor.next()
-    print(data['users'])
-    print(data['messages'])
-    print(data['times'])
+
     out_dict = {'users': data['users'], 'messages': data['messages'], 'times': data['times']}
     json_out = json.dumps(out_dict)
-    # out_str =  "#".join(data['users']) + ";"
-    # out_str += "#".join(data['messages']) + ";"
-    # out_str += "#".join([str(i) for i in data['times']])
 
     return HttpResponse(json_out)
