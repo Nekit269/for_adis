@@ -80,7 +80,7 @@ def set_notice(db, user, notice):
 def check_for_spec_text(user, text):
     text_sep = text.lower().split(" ")
     db = settings.DATABASES['mongo']['db'].sounds
-    if 'фильм' in text_sep[:1]:
+    if 'фильм' in text_sep[:2]:
         film = None
         if text_sep[0] == 'случайный':
             film = db.movies.aggregate([{'$sample':{'size':1}}])
