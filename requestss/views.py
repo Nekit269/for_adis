@@ -80,7 +80,7 @@ def set_notice(db, user, notice):
 def check_for_spec_text(user, text):
     text_sep = text.lower().split(" ")
     db = settings.DATABASES['mongo']['db'].sounds
-    if 'фильм' in text_sep[:1]:
+    if 'фильм' in text_sep[:2]:
         film = None
         if text_sep[0] == 'случайный':
             film = db.movies.aggregate([{'$sample':{'size':1}}])
@@ -129,12 +129,12 @@ def check_for_spec_text(user, text):
         out_str = "У тебя " + illnes['Name'] + ")"
         return out_str
     elif text_sep[0] in ['помощь', 'help']:
-	out_str = "Набор спец команд:\n"
-	out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
-	out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
-	out_str += "напоминание 25.05.2020 15:10 текст\n"
-	out_str += "диагностика <симптом>\n"
-	return out_str
+	    out_str = "Набор спец команд:\n"
+	    out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
+	    out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
+	    out_str += "напоминание 25.05.2020 15:10 текст\n"
+	    out_str += "диагностика <симптом>\n"
+	    return out_str
     else:
         return None
 
@@ -265,13 +265,8 @@ def load_history(request, format=None):
 
     cursor = db_history.find({'user': user})
     data = cursor.next()
-    print(data['users'])
-    print(data['messages'])
-    print(data['times'])
+
     out_dict = {'users': data['users'], 'messages': data['messages'], 'times': data['times']}
     json_out = json.dumps(out_dict)
-    # out_str =  "#".join(data['users']) + ";"
-    # out_str += "#".join(data['messages']) + ";"
-    # out_str += "#".join([str(i) for i in data['times']])
 
     return HttpResponse(json_out)
