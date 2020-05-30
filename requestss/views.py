@@ -108,7 +108,43 @@ def check_for_spec_text(user, text):
         out_str = sound['Text']
         return out_str
     elif text_sep[0] == 'мем':
-        mem = db.mems.aggregate([{'$sample':{'size':1}}])
+        user = db.users.find({'user': user})
+        if user.count() == 0:
+            return "Ошибка проверки пользователя"
+        user.next()
+        user_id = user['id']
+
+        cursor = db.mems.find({ "ID_forbid": {"$ne" : user_id} })
+
+        result = list(cursor)
+        need_index = randint(0, len(result) - 1)
+        mem = reult[need_index]
+        db.last_mem.remove({'user':user})
+        db.last_mem.insert_one({'user': user, 'mem': mem['mem']})
+
+        return mem['mem']
+    elif text_sep[:2] == ['запретить', 'мем']:
+        mem = db.last_mem.find({'user': user})
+        if mem.count() == 0:
+            return "Неизвестно какой мем запретить"
+        mem = mem.next()
+        mem_text = mem['mem']
+
+        user = db.users.find({'user': user})
+        if user.count() == 0:
+            return "Ошибка проверки пользователя"
+        user.next()
+        user_id = user['id']
+
+        mem_forbid = db.mems.find({'mem': mem_text})
+        if mem_forbid.count() == 0:
+            return "Не найден последний мем в базе данных"
+        mem_forbid = mem_forbid.next()
+        list_forbid = mem_forbid['ID_forbid']
+        list_forbid.append(user_id)
+        db.mems.update({'mem': mem_text}, {"$set": { "ID_forbid": list_forbid }})
+        return "Последний мем запрещен"
+
     elif text_sep[0] == 'гороскоп':
         if len(text_sep) < 3:
             return "Неправильный формат запроса"
@@ -126,7 +162,10 @@ def check_for_spec_text(user, text):
         if len(text_sep) < 2:
             return "Неправильный формат запроса"
         illnes = get_illnes(db.diagnost, " ".join(text_sep[1:]))
-        out_str = "У тебя " + illnes['Name'] + ")"
+
+        phrases = ['У тебя {})','Очень смахивает на заболевание {}', 'Подозрительно похоже на болезнь {}', 'Неожиданно и неприятно, но возможно это {}', 'Поздравляю, у тебя {}, сходи уже к врачу', 'Полагаю, это {}, береги себя и своих близких']
+        phrase_ind = randint(0, 5)
+        out_str = phrases[phrase_ind].format(illnes['name'])
         return out_str
     elif text_sep[0] in ['помощь', 'help']:
 	    out_str = "Набор спец команд:\n"
