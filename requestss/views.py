@@ -162,7 +162,10 @@ def check_for_spec_text(user, text):
         if len(text_sep) < 2:
             return "Неправильный формат запроса"
         illnes = get_illnes(db.diagnost, " ".join(text_sep[1:]))
-        out_str = "У тебя " + illnes['Name'] + ")"
+
+        phrases = ['У тебя {})','Очень смахивает на заболевание {}', 'Подозрительно похоже на болезнь {}', 'Неожиданно и неприятно, но возможно это {}', 'Поздравляю, у тебя {}, сходи уже к врачу', 'Полагаю, это {}, береги себя и своих близких']
+        phrase_ind = randint(0, 5)
+        out_str = phrases[phrase_ind].format(illnes['name'])
         return out_str
     elif text_sep[0] in ['помощь', 'help']:
 	    out_str = "Набор спец команд:\n"
