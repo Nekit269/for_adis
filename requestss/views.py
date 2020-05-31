@@ -74,7 +74,8 @@ def set_notice(db, user, notice):
     message = " ".join(notice[2:])
     datime = datetime.datetime(date[2], date[1], date[0], time[0], time[1], 0, 0)
     db.insert_one({"User": user, "Datetime": datime, "Text": message})
-    return True
+    out_json = '{ "time": ' + str([date[2], date[1], date[0], time[0], time[1]]) + ', "text": "' + message + '" }'
+    return out_json
 
 
 def check_for_spec_text(user, text):
@@ -156,7 +157,7 @@ def check_for_spec_text(user, text):
     elif text_sep[0] == 'напоминание':
         res = set_notice(db.notes, user, text_sep[1:])
         if res:
-            return "Напоминание сохранено"
+            return res
         else:
             return "Неправильный формат запроса"
     elif text_sep[0] == 'диагностика':
