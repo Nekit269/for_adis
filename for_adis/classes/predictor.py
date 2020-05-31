@@ -39,10 +39,10 @@ class Predictor():
         vocabulary_size = src_vocab_size
         
         self.model_ = Seq2seq(
-            decoder_seq_length = 20,
+            decoder_seq_length=50,
             cell_enc=tf.keras.layers.GRUCell,
             cell_dec=tf.keras.layers.GRUCell,
-            n_layer=3,
+            n_layer=5,
             n_units=256,
             embedding_layer=tl.layers.Embedding(vocabulary_size=vocabulary_size, embedding_size=emb_dim),
         )

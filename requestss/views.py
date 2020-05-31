@@ -79,6 +79,7 @@ def set_notice(db, user, notice):
 
 def check_for_spec_text(user, text):
     text_sep = text.lower().split(" ")
+    print(text_sep)
     db = settings.DATABASES['mongo']['db'].sounds
     if 'фильм' in text_sep[:2]:
         film = None
@@ -108,17 +109,17 @@ def check_for_spec_text(user, text):
         out_str = sound['Text']
         return out_str
     elif text_sep[0] == 'мем':
-        user = db.users.find({'user': user})
-        if user.count() == 0:
+        user_login = db.users.find({'login': user})
+        if user_login.count() == 0:
             return "Ошибка проверки пользователя"
-        user.next()
-        user_id = user['id']
+        user_data = user_login.next()
+        user_id = user_data['_id']
 
         cursor = db.mems.find({ "ID_forbid": {"$ne" : user_id} })
 
         result = list(cursor)
         need_index = randint(0, len(result) - 1)
-        mem = reult[need_index]
+        mem = result[need_index]
         db.last_mem.remove({'user':user})
         db.last_mem.insert_one({'user': user, 'mem': mem['mem']})
 
@@ -130,11 +131,11 @@ def check_for_spec_text(user, text):
         mem = mem.next()
         mem_text = mem['mem']
 
-        user = db.users.find({'user': user})
-        if user.count() == 0:
+        user_login = db.users.find({'login': user})
+        if user_login.count() == 0:
             return "Ошибка проверки пользователя"
-        user.next()
-        user_id = user['id']
+        user_data = user_login.next()
+        user_id = user_data['_id']
 
         mem_forbid = db.mems.find({'mem': mem_text})
         if mem_forbid.count() == 0:
@@ -168,12 +169,12 @@ def check_for_spec_text(user, text):
         out_str = phrases[phrase_ind].format(illnes['name'])
         return out_str
     elif text_sep[0] in ['помощь', 'help']:
-	    out_str = "Набор спец команд:\n"
-	    out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
-	    out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
-	    out_str += "напоминание 25.05.2020 15:10 текст\n"
-	    out_str += "диагностика <симптом>\n"
-	    return out_str
+        out_str = "Набор спец команд:\n"
+        out_str += "случайный фильм\n" + "фильм <жанр> <год>\n"
+        out_str += "книга\n" + "цитата\n" + "мем\n" + "гороскоп <знак> <сегодня/завтра>\n"
+        out_str += "напоминание 25.05.2020 15:10 текст\n"
+        out_str += "диагностика <симптом>\n"
+        return out_str
     else:
         return None
 

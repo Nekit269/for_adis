@@ -32,8 +32,8 @@ DEBUG = True
 
 CSRF_COOKIE_SECURE = False
 
-ALLOWED_HOSTS = [ "127.0.0.1", "localhost", "192.168.0.103", "192.168.0.101", "192.168.0.102", "192.168.0.104", "31.8.49.75", "94.75.7.195"]
-
+ALLOWED_HOSTS = [ "127.0.0.1", "localhost", "192.168.0.103", "192.168.0.101", "192.168.0.102", "192.168.0.104", "31.8.49.75", "94.75.29.199", '*']
+# ALLOWED_HOSTS = [ "*" ]
 # Application definition
 
 INSTALLED_APPS = [
